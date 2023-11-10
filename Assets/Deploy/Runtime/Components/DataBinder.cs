@@ -66,10 +66,10 @@ namespace Causeless3t.UI.MVVM
         {
             if (!IsInitialize) 
                 Initialize();
-            if (_targetInfo.Range is BinderInfo.eBindRange.GetNSet)
-                BinderManager.Instance.Bind(GetBindKey(_targetInfo.PInfo.Name), this, _targetInfo.PInfo, _targetComponent);
             var viewModel = ViewModelManager.Instance.GetViewModel(_sourceInfo.Owner);
-            BinderManager.Instance.Bind(viewModel.GetBindKey(_sourceInfo.PInfo.Name), viewModel, _sourceInfo.PInfo);
+            if (_targetInfo.Range is BinderInfo.eBindRange.GetNSet)
+                BinderManager.Instance.Bind(GetBindKey(_targetInfo.PInfo.Name), viewModel, _sourceInfo.PInfo);
+            BinderManager.Instance.Bind(viewModel.GetBindKey(_sourceInfo.PInfo.Name), this, _targetInfo.PInfo, _targetComponent);
         }
 
         public void UnBind()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Causeless3t.Core;
 using UnityEngine;
@@ -13,9 +14,11 @@ namespace Causeless3t.UI.MVVM
         private static readonly List<UIView> ViewList = new();
         private static readonly Dictionary<string, UIView> ViewPool = new();
 
+        public UIView TopView => ViewList.Count == 0 ? null : ViewList[0];
+
         #region MonoBehaviour
         // Start is called before the first frame update
-        private void Start()
+        private void Awake()
         {
             _rootCanvas = GetComponent<Canvas>();
             _poolTrans = transform.Find(PoolTransformName);
@@ -25,13 +28,11 @@ namespace Causeless3t.UI.MVVM
                 _poolTrans = poolRootObj.transform;
                 _poolTrans.SetParent(transform);
             }
-            
-            PushView("Sample");
         }
         
         #endregion MonoBehaviour
 
-        public void PushView(string viewName)
+        public UIView PushView(string viewName, Action<UIView> onOpen = null)
         {
             if (ViewList.Count > 0)
                 PushDownView();
@@ -42,7 +43,7 @@ namespace Causeless3t.UI.MVVM
                 ViewList.RemoveAt(index);
                 ViewList.Insert(0, v);
                 PullUpView();
-                return;
+                return v;
             }
             if (!ViewPool.TryGetValue(viewName, out var view))
                 view = CreateView(viewName);
@@ -50,7 +51,10 @@ namespace Causeless3t.UI.MVVM
             view.transform.SetParent(_rootCanvas.transform);
             view!.transform.localScale = Vector3.one;
             view.gameObject.SetActive(true);
+            view.OnOpenEvent -= onOpen;
+            view.OnOpenEvent += onOpen;
             view.OnOpen();
+            return view;
         }
 
         private UIView CreateView(string viewName)
