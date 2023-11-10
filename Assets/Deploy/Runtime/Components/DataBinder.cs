@@ -25,41 +25,47 @@ namespace Causeless3t.UI.MVVM
         private object _targetValue;
         private bool _syncLockFlag = true;
 
-        #region MonoBehaviour
+        public bool IsInitialize => !_targetComponent.IsUnityNull();
 
-        private void Awake()
-        {
-            if (_targetInfo?.Owner == null) return;
-            _targetComponent = transform.GetComponent(_targetInfo.Owner);
-            _targetValue = _targetInfo.PInfo.GetValue(_targetComponent);
-        }
+        #region MonoBehaviour
 
         private void OnEnable()
         {
-            if (_targetComponent.IsUnityNull()) return;
+            if (!IsInitialize) 
+                Initialize();
             if (_observeCycle != eObserveCycle.OnEnable) return;
             CheckChangedValue();
         }
 
         private void Update()
         {
-            if (_targetComponent.IsUnityNull()) return;
+            if (!IsInitialize) 
+                Initialize();
             if (_observeCycle != eObserveCycle.Update) return;
             CheckChangedValue();
         }
 
         private void FixedUpdate()
         {
-            if (_targetComponent.IsUnityNull()) return;
+            if (!IsInitialize) 
+                Initialize();
             if (_observeCycle != eObserveCycle.FixedUpdate) return;
             CheckChangedValue();
         }
 
         #endregion MonoBehaviour
+
+        private void Initialize()
+        {
+            if (_targetInfo?.Owner == null) return;
+            _targetComponent = transform.GetComponent(_targetInfo.Owner);
+            _targetValue = _targetInfo.PInfo.GetValue(_targetComponent);
+        }
         
         public void Bind()
         {
-            if (_targetInfo?.Owner == null) return;
+            if (!IsInitialize) 
+                Initialize();
             if (_targetInfo.Range is BinderInfo.eBindRange.GetNSet)
                 BinderManager.Instance.Bind(GetBindKey(_targetInfo.PInfo.Name), this, _targetInfo.PInfo, _targetComponent);
             var viewModel = ViewModelManager.Instance.GetViewModel(_sourceInfo.Owner);
@@ -86,7 +92,7 @@ namespace Causeless3t.UI.MVVM
         }
 
         public string GetBindKey(string propertyName) => $"{GetHierarchyFullPath()}/{_targetComponent.GetType().FullName}/{propertyName}";
-        
+
         private string GetHierarchyFullPath()
         {
             StringBuilder sb = new StringBuilder(name);

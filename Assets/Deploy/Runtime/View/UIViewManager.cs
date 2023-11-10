@@ -48,6 +48,7 @@ namespace Causeless3t.UI.MVVM
                 view = CreateView(viewName);
             ViewList.Insert(0, view);
             view.transform.SetParent(_rootCanvas.transform);
+            view!.transform.localScale = Vector3.one;
             view.gameObject.SetActive(true);
             view.OnOpen();
         }

@@ -107,7 +107,7 @@ RectTransform:
   m_GameObject: {fileID: 913553508850422578}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5358641754489605366}
@@ -907,7 +907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetInfo:
     rid: 3686487853710180425
-  _observeCycle: 0
+  _observeCycle: 2
   _sourceInfo:
     rid: 3686487853710180427
   references:
