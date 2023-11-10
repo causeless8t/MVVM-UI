@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -13,6 +12,7 @@ namespace Causeless3t.UI.MVVM.Editor
     {
         private BinderInfo _targetInfo;
         private BinderInfo _sourceInfo;
+        private DataBinder.eObserveCycle _observeCycle;
 
         private static Type[] _currentTypes;
 
@@ -22,6 +22,8 @@ namespace Causeless3t.UI.MVVM.Editor
         private readonly List<PropertyInfo> _targetPropList = new();
         private readonly List<string> _targetPropInspectorList = new();
         private int _targetPropertyIdx = 0;
+        private int _targetUpdateCycleIdx = 0;
+
         private readonly List<Type> _sourceOwnerList = new();
         private readonly List<string> _sourceOwnerInspectorList = new();
         private int _sourceOwnerIdx = 0;
@@ -35,6 +37,7 @@ namespace Causeless3t.UI.MVVM.Editor
             
             _targetInfo = serializedObject.FindProperty("_targetInfo").managedReferenceValue as BinderInfo;
             _sourceInfo = serializedObject.FindProperty("_sourceInfo").managedReferenceValue as BinderInfo;
+            _observeCycle = (DataBinder.eObserveCycle)serializedObject.FindProperty("_observeCycle").boxedValue;
 
             if (_currentTypes == null)
             {
@@ -85,7 +88,6 @@ namespace Causeless3t.UI.MVVM.Editor
             foreach (var component in result)
             {
                 var type = component.GetType();
-                if (type == typeof(DataBinder)) continue;
                 _targetOwnerList.Add(type);
                 _targetOwnerInspectorList.Add(type.ToString());
             }
@@ -125,6 +127,18 @@ namespace Causeless3t.UI.MVVM.Editor
             if (EditorGUI.EndChangeCheck())
                 ApplyBinderPropertyInfo(true);
             EditorGUILayout.Separator();
+            if (_targetInfo.Range is BinderInfo.eBindRange.GetNSet)
+            {
+                EditorGUI.BeginChangeCheck();
+                _observeCycle = (DataBinder.eObserveCycle)EditorGUILayout.EnumPopup("Update Cycle", _observeCycle);
+                if (EditorGUI.EndChangeCheck())
+                    serializedObject.FindProperty("_observeCycle").boxedValue = _observeCycle;
+            }
+            else
+            {
+                _observeCycle = DataBinder.eObserveCycle.None;
+                serializedObject.FindProperty("_observeCycle").boxedValue = _observeCycle;
+            }
             
             EditorGUILayout.LabelField("Source");
             EditorGUILayout.Separator();
@@ -168,13 +182,13 @@ namespace Causeless3t.UI.MVVM.Editor
             {
                 if (property.DeclaringType == typeof(MonoBehaviour) ||
                     property.DeclaringType == typeof(Component)) continue;
-                resultPropList.Add(property);
+                if (property.GetCustomAttribute(typeof(ObsoleteAttribute)) != null) continue;
                 if (property.CanRead && property.CanWrite)
                     resultPropInspectorList.Add($"{property.PropertyType} {property.Name}");
                 else if (property.CanRead)
                     resultPropInspectorList.Add($"{property.PropertyType} {property.Name} (R)");
-                else
-                    resultPropInspectorList.Add($"{property.PropertyType} {property.Name} (W)");
+                else continue;
+                resultPropList.Add(property);
             }
 
             BinderInfo binderInfo = isTarget ? _targetInfo : _sourceInfo;

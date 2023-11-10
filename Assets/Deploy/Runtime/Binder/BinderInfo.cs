@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
 namespace Causeless3t.UI.MVVM
 {
     [Serializable]
-    public sealed class BinderInfo : IEquatable<BinderInfo>
+    public sealed class BinderInfo
     {
         public enum eBindRange
         {
@@ -38,14 +37,11 @@ namespace Causeless3t.UI.MVVM
                 _returnType = value.PropertyType.AssemblyQualifiedName;
             }
         }
-        public string GetKey() => $"{_ownerType}/{PInfo.Name}";
 
         public void SetPropertyInfo(eBindRange range, PropertyInfo info)
         {
             Range = range;
             PInfo = info;
         }
-
-        public bool Equals(BinderInfo other) => GetKey().Equals(other?.GetKey());
     }
 }
