@@ -2,17 +2,19 @@ using System.Collections.Generic;
 
 namespace Causeless3t.UI.MVVM
 {
-    public class BaseViewModel : IBindable
+    public class BaseViewModel : IBindableProperty
     {
         private readonly List<string> _syncLockFlagList = new();
-        
+
+        #region IBindableProperty
+
         public void SetPropertyLockFlag(string key)
         {
             if (_syncLockFlagList.Contains(key)) return;
             _syncLockFlagList.Add(key);
         }
 
-        public string GetBindKey(string propertyName) => $"{GetType().FullName}/{propertyName}";
+        public virtual string GetBindKey(string propertyName) => $"{GetType().FullName}/{propertyName}";
 
         public void SyncValue(string key, object value)
         {
@@ -21,5 +23,7 @@ namespace Causeless3t.UI.MVVM
             else
                 BinderManager.Instance.BroadcastValue(key, value);
         }
+
+        #endregion IBindableProperty
     }
 }

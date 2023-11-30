@@ -18,18 +18,18 @@ namespace Causeless3t.UI.MVVM.Editor
 
         private readonly List<Type> _targetOwnerList = new();
         private readonly List<string> _targetOwnerInspectorList = new();
-        private int _targetOwnerIdx = 0;
+        private int _targetOwnerIdx = -1;
         private readonly List<PropertyInfo> _targetPropList = new();
         private readonly List<string> _targetPropInspectorList = new();
-        private int _targetPropertyIdx = 0;
+        private int _targetPropertyIdx = -1;
         private int _targetUpdateCycleIdx = 0;
 
         private readonly List<Type> _sourceOwnerList = new();
         private readonly List<string> _sourceOwnerInspectorList = new();
-        private int _sourceOwnerIdx = 0;
+        private int _sourceOwnerIdx = -1;
         private readonly List<PropertyInfo> _sourcePropList = new();
         private readonly List<string> _sourcePropInspectorList = new();
-        private int _sourcePropertyIdx = 0;
+        private int _sourcePropertyIdx = -1;
 
         private void OnEnable()
         {
@@ -58,8 +58,9 @@ namespace Causeless3t.UI.MVVM.Editor
             _targetPropInspectorList.Clear();
             _sourcePropList.Clear();
             _sourcePropInspectorList.Clear();
-            UpdatePropertyList(dataBinder!.GetComponent(_targetOwnerList[_targetOwnerIdx]), true);
-            if (_sourceOwnerList.Count > 0)
+            if (_targetOwnerIdx > -1)
+                UpdatePropertyList(dataBinder!.GetComponent(_targetOwnerList[_targetOwnerIdx]), true);
+            if (_sourceOwnerList.Count > 0 && _sourceOwnerIdx > -1)
                 UpdatePropertyList(Activator.CreateInstance(_sourceOwnerList[_sourceOwnerIdx]), false);
             
             if (_targetInfo == null)
@@ -91,7 +92,7 @@ namespace Causeless3t.UI.MVVM.Editor
                 _targetOwnerList.Add(type);
                 _targetOwnerInspectorList.Add(type.ToString());
             }
-            _targetOwnerIdx = _targetInfo == null ? 0 : Mathf.Max(_targetOwnerList.FindIndex((t) => t == _targetInfo.Owner), 0);
+            _targetOwnerIdx = _targetInfo == null ? -1 : _targetOwnerList.FindIndex((t) => t == _targetInfo.Owner);
 
             foreach (var type in _currentTypes)
             {
@@ -100,7 +101,7 @@ namespace Causeless3t.UI.MVVM.Editor
                 _sourceOwnerList.Add(type);
                 _sourceOwnerInspectorList.Add(type.ToString());
             }
-            _sourceOwnerIdx = _sourceInfo == null ? 0 : Mathf.Max(_sourceOwnerList.FindIndex((t) => t == _sourceInfo.Owner), 0);
+            _sourceOwnerIdx = _sourceInfo == null ? -1 : _sourceOwnerList.FindIndex((t) => t == _sourceInfo.Owner);
         }
 
         public override void OnInspectorGUI()
@@ -113,7 +114,7 @@ namespace Causeless3t.UI.MVVM.Editor
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.LabelField("Owner");
             _targetOwnerIdx = EditorGUILayout.Popup(_targetOwnerIdx, _targetOwnerInspectorList.ToArray());
-            if (EditorGUI.EndChangeCheck())
+            if (_targetOwnerIdx > -1 && EditorGUI.EndChangeCheck())
             {
                 var dataBinder = target as DataBinder;
                 var owner = dataBinder!.GetComponent(_targetOwnerList[_targetOwnerIdx]);
@@ -124,10 +125,10 @@ namespace Causeless3t.UI.MVVM.Editor
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.LabelField("Property");
             _targetPropertyIdx = EditorGUILayout.Popup(_targetPropertyIdx, _targetPropInspectorList.ToArray());
-            if (EditorGUI.EndChangeCheck())
+            if (_targetPropertyIdx > -1 && EditorGUI.EndChangeCheck())
                 ApplyBinderPropertyInfo(true);
             EditorGUILayout.Separator();
-            if (_targetInfo.Range is BinderInfo.eBindRange.GetNSet)
+            if (_targetInfo is {Range: BinderInfo.eBindRange.GetNSet})
             {
                 EditorGUI.BeginChangeCheck();
                 _observeCycle = (DataBinder.eObserveCycle)EditorGUILayout.EnumPopup("Update Cycle", _observeCycle);
@@ -146,7 +147,7 @@ namespace Causeless3t.UI.MVVM.Editor
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.LabelField("Owner");
             _sourceOwnerIdx = EditorGUILayout.Popup(_sourceOwnerIdx, _sourceOwnerInspectorList.ToArray());
-            if (EditorGUI.EndChangeCheck())
+            if (_sourceOwnerIdx > -1 && EditorGUI.EndChangeCheck())
             {
                 UpdatePropertyList(Activator.CreateInstance(_sourceOwnerList[_sourceOwnerIdx]), false);
                 ApplyBinderOwnerInfo(false);
@@ -155,7 +156,7 @@ namespace Causeless3t.UI.MVVM.Editor
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.LabelField("Property");
             _sourcePropertyIdx = EditorGUILayout.Popup(_sourcePropertyIdx, _sourcePropInspectorList.ToArray());
-            if (EditorGUI.EndChangeCheck())
+            if (_sourcePropertyIdx > -1 && EditorGUI.EndChangeCheck())
                 ApplyBinderPropertyInfo(false);
 
             serializedObject.ApplyModifiedProperties();
@@ -194,13 +195,15 @@ namespace Causeless3t.UI.MVVM.Editor
             BinderInfo binderInfo = isTarget ? _targetInfo : _sourceInfo;
             List<PropertyInfo> propList = isTarget ? _targetPropList : _sourcePropList;
             if (isTarget)
-                _targetPropertyIdx = binderInfo == null ? 0 : Mathf.Max(propList.FindIndex((p) => p == binderInfo!.PInfo), 0);
+                _targetPropertyIdx = binderInfo == null ? -1 : propList.FindIndex((p) => p == binderInfo!.PInfo);
             else
-                _sourcePropertyIdx = binderInfo == null ? 0 : Mathf.Max(propList.FindIndex((p) => p == binderInfo!.PInfo), 0);
+                _sourcePropertyIdx = binderInfo == null ? -1 : propList.FindIndex((p) => p == binderInfo!.PInfo);
         }
 
         private void ApplyBinderOwnerInfo(bool isTarget)
         {
+            if (isTarget && _targetOwnerIdx < 0) return;
+            if (!isTarget && _sourceOwnerIdx < 0) return;
             var binderInfo = isTarget ? _targetInfo : _sourceInfo;
             binderInfo.Owner = isTarget ? _targetOwnerList[_targetOwnerIdx] : _sourceOwnerList[_sourceOwnerIdx];
             if (isTarget)
@@ -211,6 +214,8 @@ namespace Causeless3t.UI.MVVM.Editor
         
         private void ApplyBinderPropertyInfo(bool isTarget)
         {
+            if (isTarget && (_targetPropList.Count == 0 || _targetPropertyIdx < 0)) return;
+            if (!isTarget && (_sourcePropList.Count == 0 || _sourcePropertyIdx < 0)) return;
             var propInfo = isTarget ? _targetPropList[_targetPropertyIdx] : _sourcePropList[_sourcePropertyIdx];
             BinderInfo.eBindRange bindType = propInfo.CanRead switch
             {

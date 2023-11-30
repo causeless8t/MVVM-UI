@@ -31,11 +31,15 @@ namespace Causeless3t.UI.MVVM
         {
             foreach (var binder in GetComponentsInChildren<DataBinder>(true))
                 binder.Bind();
+            foreach (var binder in GetComponentsInChildren<CollectionBinder>(true))
+                binder.Bind();
         }
 
         private void UnBind()
         {
             foreach (var binder in GetComponentsInChildren<DataBinder>(true))
+                binder.UnBind();
+            foreach (var binder in GetComponentsInChildren<CollectionBinder>(true))
                 binder.UnBind();
         }
 

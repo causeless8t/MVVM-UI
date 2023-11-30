@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Causeless3t.UI.MVVM
 {
-    public sealed class DataBinder : MonoBehaviour, IBindable
+    public sealed class DataBinder : MonoBehaviour, IBindableProperty, IBinder
     {
         public enum eObserveCycle
         {
@@ -25,7 +25,7 @@ namespace Causeless3t.UI.MVVM
         private object _targetValue;
         private bool _syncLockFlag = true;
 
-        public bool IsInitialize => !_targetComponent.IsUnityNull();
+        private bool IsInitialize => !_targetComponent.IsUnityNull();
 
         #region MonoBehaviour
 
@@ -62,28 +62,34 @@ namespace Causeless3t.UI.MVVM
             _targetValue = _targetInfo.PInfo.GetValue(_targetComponent);
         }
         
-        public void Bind()
-        {
-            if (!IsInitialize) 
-                Initialize();
-            var viewModel = ViewModelManager.Instance.GetViewModel(_sourceInfo.Owner);
-            if (_targetInfo.Range is BinderInfo.eBindRange.GetNSet)
-                BinderManager.Instance.Bind(GetBindKey(_targetInfo.PInfo.Name), viewModel, _sourceInfo.PInfo);
-            BinderManager.Instance.Bind(viewModel.GetBindKey(_sourceInfo.PInfo.Name), this, _targetInfo.PInfo, _targetComponent);
-        }
-
-        public void UnBind()
-        {
-            if (_targetInfo?.Owner == null) return;
-            BinderManager.Instance.UnBind(GetBindKey(_targetInfo.PInfo.Name));
-        }
-
-        public void CheckChangedValue()
+        private void CheckChangedValue()
         {
             if (_targetValue.Equals(_targetInfo.PInfo.GetValue(_targetComponent))) return;
             _targetValue = _targetInfo.PInfo.GetValue(_targetComponent);
             SyncValue(GetBindKey(_targetInfo.PInfo.Name), _targetValue);
         }
+
+        #region IBinder
+
+        public void Bind(BaseViewModel viewModel = null)
+        {
+            if (!IsInitialize) 
+                Initialize();
+            viewModel ??= ViewModelManager.Instance.GetViewModel(_sourceInfo.Owner);
+            if (_targetInfo.Range is BinderInfo.eBindRange.GetNSet)
+                BinderManager.Instance.BindProperty(GetBindKey(_targetInfo.PInfo.Name), viewModel, _sourceInfo.PInfo);
+            BinderManager.Instance.BindProperty(viewModel.GetBindKey(_sourceInfo.PInfo.Name), this, _targetInfo.PInfo, _targetComponent);
+        }
+
+        public void UnBind()
+        {
+            if (_targetInfo?.Owner == null) return;
+            BinderManager.Instance.UnBindProperty(GetBindKey(_targetInfo.PInfo.Name));
+        }
+
+        #endregion IBinder
+
+        #region IBindableProperty
 
         public void SetPropertyLockFlag(string key)
         {
@@ -113,5 +119,7 @@ namespace Causeless3t.UI.MVVM
             else
                 BinderManager.Instance.BroadcastValue(key, value);
         }
+
+        #endregion IBindableProperty
     }
 }

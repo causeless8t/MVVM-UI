@@ -34,5 +34,7 @@ namespace Causeless3t.UI.MVVM
                 SyncValue(GetBindKey(nameof(SampleFloat)), value);
             }
         }
+
+        public CollectionViewModel SampleCollectionViewModel { get; } = new(nameof(SampleCollectionViewModel));
     }
 }
