@@ -89,9 +89,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5857143216964468420}
-  - component: {fileID: 5605880304544911911}
-  - component: {fileID: 1286686401522651457}
-  - component: {fileID: 2408974206700598061}
+  - component: {fileID: 1026053649377190149}
   m_Layer: 5
   m_Name: Sample
   m_TagString: Untagged
@@ -120,30 +118,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!223 &5605880304544911911
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 913553508850422578}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
-  m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
---- !u!114 &1286686401522651457
+--- !u!114 &1026053649377190149
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -152,24 +127,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 913553508850422578}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!114 &2408974206700598061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 913553508850422578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 415a69e73365547d6b0d2faee5573b72, type: 3}
+  m_Script: {fileID: 11500000, guid: 276ac2972cd8d4f78ad97d57ed7125e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1633489551376952369
@@ -335,7 +293,7 @@ GameObject:
   - component: {fileID: 4561039206825764660}
   - component: {fileID: 4702730358148583828}
   - component: {fileID: 7561680622685988187}
-  - component: {fileID: 7327031174563500825}
+  - component: {fileID: 1537064218229167861}
   m_Layer: 5
   m_Name: ReusableScrollView
   m_TagString: Untagged
@@ -433,10 +391,10 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  _itemPrefab: {fileID: 8845050092959752869, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+  _itemPrefab: {fileID: 4921953040373501267}
   _columnCount: 4
-  _itemSpace: {x: 10, y: 10}
---- !u!114 &7327031174563500825
+  ItemSpace: {x: 10, y: 10}
+--- !u!114 &1537064218229167861
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -445,23 +403,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2479335218189316171}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e90ed4dc5395474987a6be0859e6146, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d243cfc9e6a57747ac327dac59f5b02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sourceInfo:
-    rid: 3686488351111380993
-  references:
-    version: 2
-    RefIds:
-    - rid: 3686488351111380993
-      type: {class: BinderInfo, ns: Causeless3t.UI.MVVM, asm: MVVM}
-      data:
-        _ownerType: Causeless3t.UI.MVVM.SampleViewModel, Assembly-CSharp, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-        Range: 1
-        _propName: SampleCollectionViewModel
-        _returnType: Causeless3t.UI.MVVM.CollectionViewModel, MVVM, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
+  getterKey: SampleCollectionViewModel
 --- !u!1 &2726589747600308601
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,12 +960,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3267315803202803593}
   m_Father: {fileID: 6348170311343657190}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00007055476}
+  m_AnchoredPosition: {x: 0, y: 74316.805}
   m_SizeDelta: {x: 0, y: 400}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &3947378881556128573
@@ -1353,7 +1299,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8078351583357928755}
   - component: {fileID: 4678934759678012928}
-  - component: {fileID: 4442888592525938680}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -1434,42 +1379,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4442888592525938680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5906515699816907392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aff8e499ece64c5a99710ef4ffcc378, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _targetInfo:
-    rid: 3686487853710180425
-  _observeCycle: 2
-  _sourceInfo:
-    rid: 3686487853710180427
-  references:
-    version: 2
-    RefIds:
-    - rid: 3686487853710180425
-      type: {class: BinderInfo, ns: Causeless3t.UI.MVVM, asm: MVVM}
-      data:
-        _ownerType: UnityEngine.UI.Slider, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-        Range: 3
-        _propName: value
-        _returnType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-    - rid: 3686487853710180427
-      type: {class: BinderInfo, ns: Causeless3t.UI.MVVM, asm: MVVM}
-      data:
-        _ownerType: Causeless3t.UI.MVVM.SampleViewModel, Assembly-CSharp, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-        Range: 3
-        _propName: SampleFloat
-        _returnType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
 --- !u!1 &6117242736090263460
 GameObject:
   m_ObjectHideFlags: 0
@@ -1481,7 +1390,7 @@ GameObject:
   - component: {fileID: 7583834716076698177}
   - component: {fileID: 4462625696840213755}
   - component: {fileID: 8148310738926577139}
-  - component: {fileID: 5356396308686379592}
+  - component: {fileID: 2144792610985338353}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1605,7 +1514,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &5356396308686379592
+--- !u!114 &2144792610985338353
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1614,33 +1523,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6117242736090263460}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aff8e499ece64c5a99710ef4ffcc378, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d4d451f2da91fe4b95b4a02d8e2fd5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetInfo:
-    rid: 3686487853710180419
-  _observeCycle: 2
-  _sourceInfo:
-    rid: 3686487853710180421
-  references:
-    version: 2
-    RefIds:
-    - rid: 3686487853710180419
-      type: {class: BinderInfo, ns: Causeless3t.UI.MVVM, asm: MVVM}
-      data:
-        _ownerType: TMPro.TextMeshProUGUI, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-        Range: 3
-        _propName: text
-        _returnType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-    - rid: 3686487853710180421
-      type: {class: BinderInfo, ns: Causeless3t.UI.MVVM, asm: MVVM}
-      data:
-        _ownerType: Causeless3t.UI.MVVM.SampleViewModel, Assembly-CSharp, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-        Range: 3
-        _propName: SampleText
-        _returnType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+  getterKey: 
+  _bindInfos:
+  - Key: SampleText
+    PropertyType: 0
 --- !u!1 &6210023244924023582
 GameObject:
   m_ObjectHideFlags: 0
@@ -1947,8 +1836,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8454181177873622120}
   m_HandleRect: {fileID: 5453881312281836141}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.999966
+  m_Value: 1
+  m_Size: 0.47941887
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1963,7 +1852,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1500122637824734602}
   - component: {fileID: 3838079315878578457}
-  - component: {fileID: 7313471810572379969}
+  - component: {fileID: 8809735631870113637}
   m_Layer: 5
   m_Name: Toggle
   m_TagString: Untagged
@@ -2040,7 +1929,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
---- !u!114 &7313471810572379969
+--- !u!114 &8809735631870113637
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2049,35 +1938,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7485029546289661112}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aff8e499ece64c5a99710ef4ffcc378, type: 3}
+  m_Script: {fileID: 11500000, guid: fc5c4ee1a2c938c428e3547bd407a75b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetInfo:
-    rid: 3686487853710180422
-  _observeCycle: 0
-  _sourceInfo:
-    rid: 3686487853710180424
-  references:
-    version: 2
-    RefIds:
-    - rid: 3686487853710180422
-      type: {class: BinderInfo, ns: Causeless3t.UI.MVVM, asm: MVVM}
-      data:
-        _ownerType: UnityEngine.UI.Toggle, UnityEngine.UI, Version=1.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-        Range: 3
-        _propName: isOn
-        _returnType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
-    - rid: 3686487853710180424
-      type: {class: BinderInfo, ns: Causeless3t.UI.MVVM, asm: MVVM}
-      data:
-        _ownerType: Causeless3t.UI.MVVM.SampleViewModel, Assembly-CSharp, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-        Range: 3
-        _propName: SampleToggle
-        _returnType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
+  getterKey: 
+  _bindInfos:
+  - Key: SampleToggle
+    PropertyType: 0
 --- !u!1 &7780207141760296358
 GameObject:
   m_ObjectHideFlags: 0
@@ -2235,3 +2102,110 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1001 &4535586637496397814
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4546136054204950904}
+    m_Modifications:
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8845050092959752869, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+      propertyPath: m_Name
+      value: Item
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+--- !u!224 &3267315803202803593 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1415944946893420671, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+  m_PrefabInstance: {fileID: 4535586637496397814}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4921953040373501267 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8845050092959752869, guid: 061b9ec1d73924068a417654104d8e29, type: 3}
+  m_PrefabInstance: {fileID: 4535586637496397814}
+  m_PrefabAsset: {fileID: 0}

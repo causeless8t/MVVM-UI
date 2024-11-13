@@ -1,27 +1,39 @@
 
-namespace Causeless3t.UI.MVVM
+using Causeless3t.UI;
+using UnityEngine;
+
+namespace Causeless3t.Sample
 {
-    public sealed class SampleItemViewModel : BaseViewModel, ICollectionItem
+    public struct SampleItemModel : ICollectionItemData
     {
-        public SampleItemViewModel(int index) => Index = index;
-        
-        private string _sampleText;
-        public string SampleText
+        public int Index;
+    }
+
+    public sealed class SampleItemViewModel : BaseUI, ICollectionItemUI
+    {
+        private SampleItemModel _model;
+
+        public string SampleItemText
         {
-            get => _sampleText;
-            set {
-                _sampleText = value;
-                SyncValue(GetBindKey(nameof(SampleText)), value);
-            }
+            set => BroadcastSetProperty(nameof(SampleItemText), value);
         }
-        
-        public override string GetBindKey(string propertyName) => $"{GetType().FullName}/{Index}/{propertyName}";
 
-        public int Index { get; }
+        public int Index { get; set; }
 
-        public void UpdateItem()
+        public RectTransform RootRectTransform { get; private set; }
+
+        protected override void Awake()
         {
-            SyncValue(GetBindKey(nameof(SampleText)), _sampleText);
+            base.Awake();
+            RootRectTransform = GetComponent<RectTransform>();
+        }
+
+        public void UpdateItem(int index, ICollectionItemData data)
+        {
+            Index = index;
+            if (data == null) return;
+            _model = (SampleItemModel)data;
+            SampleItemText = _model.Index.ToString();
         }
     }
 }

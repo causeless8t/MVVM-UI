@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6362168858622036101}
   - component: {fileID: 1268154741598842076}
   - component: {fileID: 2988336285020862849}
-  - component: {fileID: 7749941028901428989}
+  - component: {fileID: 5225648636134838815}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &7749941028901428989
+--- !u!114 &5225648636134838815
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,33 +144,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7134088214625530173}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aff8e499ece64c5a99710ef4ffcc378, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d4d451f2da91fe4b95b4a02d8e2fd5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetInfo:
-    rid: 3686488351111380997
-  _observeCycle: 0
-  _sourceInfo:
-    rid: 3686488351111380998
-  references:
-    version: 2
-    RefIds:
-    - rid: 3686488351111380997
-      type: {class: BinderInfo, ns: Causeless3t.UI.MVVM, asm: MVVM}
-      data:
-        _ownerType: TMPro.TextMeshProUGUI, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-        Range: 3
-        _propName: text
-        _returnType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-    - rid: 3686488351111380998
-      type: {class: BinderInfo, ns: Causeless3t.UI.MVVM, asm: MVVM}
-      data:
-        _ownerType: Causeless3t.UI.MVVM.SampleItemViewModel, Assembly-CSharp, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-        Range: 3
-        _propName: SampleText
-        _returnType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+  getterKey: 
+  _bindInfos:
+  - Key: SampleItemText
+    PropertyType: 0
 --- !u!1 &8845050092959752869
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,13 +162,14 @@ GameObject:
   - component: {fileID: 1415944946893420671}
   - component: {fileID: 6334217991024391095}
   - component: {fileID: 906453657724352105}
+  - component: {fileID: 3351350894957434989}
   m_Layer: 5
   m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1415944946893420671
 RectTransform:
   m_ObjectHideFlags: 0
@@ -247,3 +228,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3351350894957434989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8845050092959752869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e7523c94f2894979bbd0597079fbabb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

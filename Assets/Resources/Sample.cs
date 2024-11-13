@@ -1,39 +1,47 @@
 using System.Collections.Generic;
 using System.Globalization;
-using Causeless3t.UI.MVVM;
+using Causeless3t.UI;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class Sample : MonoBehaviour
+namespace Causeless3t.Sample
 {
-    private UIView _view;
-    private SampleViewModel _viewModel;
-    private List<SampleItemViewModel> _itemList = new();
-
-    // Start is called before the first frame update
-    void Start()
+    public sealed class Sample : BaseUI
     {
-        for (int i = 0; i < 200; i++)
+        public bool IsActive { get; }
+
+        public bool SampleToggle
         {
-            var item = new SampleItemViewModel(i)
-            {
-                SampleText = i.ToString()
-            };
-            _itemList.Add(item);
+            get => BroadcastGetProperty<bool>(nameof(SampleToggle));
+            set => BroadcastSetProperty(nameof(SampleToggle), value);
         }
-        _view = UIViewManager.Instance.PushView("Sample", view =>
-        {
-            view.ViewModel = ViewModelManager.Instance.GetViewModel(typeof(SampleViewModel));
-            _viewModel = view.ViewModel as SampleViewModel;
-            _viewModel!.SampleCollectionViewModel.AddItems(_itemList);
-        });
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (_viewModel == null) return;
-        var time = Time.realtimeSinceStartup;
-        _viewModel!.SampleText = time.ToString(CultureInfo.InvariantCulture);
-        _viewModel.SampleToggle = (int)time % 2 == 0;
+        public string SampleText
+        {
+            set => BroadcastSetProperty(nameof(SampleText), value);
+        }
+
+        public ReusableScrollView SampleCollectionViewModel => BroadcastGetProperty<ReusableScrollView>(nameof(SampleCollectionViewModel));
+
+        // Start is called before the first frame update
+        protected override void Start()
+        {
+            base.Start();
+            UniTask.Create(async () =>
+            {
+                await UniTask.WaitUntil(() => SampleCollectionViewModel.IsInitialized);
+                for (int i = 0; i < 200; i++)
+                    SampleCollectionViewModel.AddItem(new SampleItemModel() { Index = i });
+            });
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            var time = Time.realtimeSinceStartup;
+            SampleText = time.ToString(CultureInfo.InvariantCulture);
+            SampleToggle = (int)time % 2 == 0;
+        }
     }
 }
+

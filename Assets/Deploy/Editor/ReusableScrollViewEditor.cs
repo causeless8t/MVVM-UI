@@ -1,8 +1,9 @@
+using Causeless3t.UI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Causeless3t.UI.Editor
+namespace Causeless3t.Editor
 {
     [CustomEditor(typeof(ReusableScrollView))]
     public sealed class ReusableScrollViewEditor : UnityEditor.Editor
@@ -44,10 +45,10 @@ namespace Causeless3t.UI.Editor
             scrollView.content = scrollviewObject.transform.Find("Viewport/Content").GetComponent<RectTransform>();
             scrollView.viewport = scrollviewObject.transform.Find("Viewport").GetComponent<RectTransform>();
             scrollView.horizontalScrollbar = scrollviewObject.transform.Find("Scrollbar Horizontal").GetComponent<Scrollbar>();
-            scrollView.horizontalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHideAndExpandViewport;
+            scrollView.horizontalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
             scrollView.horizontalScrollbarSpacing = -3f;
             scrollView.verticalScrollbar = scrollviewObject.transform.Find("Scrollbar Vertical").GetComponent<Scrollbar>();
-            scrollView.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHideAndExpandViewport;
+            scrollView.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
             scrollView.verticalScrollbarSpacing = -3f;
             
             Undo.RegisterCreatedObjectUndo(scrollviewObject, "Create " + scrollviewObject.name);
