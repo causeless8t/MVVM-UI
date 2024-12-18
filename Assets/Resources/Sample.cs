@@ -3,6 +3,7 @@ using System.Globalization;
 using Causeless3t.UI;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Causeless3t.Sample
 {
@@ -41,6 +42,12 @@ namespace Causeless3t.Sample
             var time = Time.realtimeSinceStartup;
             SampleText = time.ToString(CultureInfo.InvariantCulture);
             SampleToggle = (int)time % 2 == 0;
+        }
+
+        [ButtonClickEventRegister("GoToLastIndexButton")]
+        private void GoToLastIndexButton(Button target)
+        {
+            SampleCollectionViewModel.ScrollToPosition(1f, 1f);
         }
     }
 }

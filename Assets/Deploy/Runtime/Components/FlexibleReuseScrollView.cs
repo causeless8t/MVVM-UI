@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using Causeless3t.Core;
 using UnityEngine;
 using UnityEngine.Events;
@@ -210,21 +211,32 @@ namespace Causeless3t.UI
         /// <param name="index">아이템 데이터 Index</param>
         /// <param name="duration">스크롤 이동에 걸리는 시간(sec)</param>
         /// <returns>duration이 0이 아닐때 DoTween, 0이면 null</returns>
-        public Tweener ScrollToItemIndex(int index, float duration = 0f)
+        public void ScrollToItemIndex(int index, float duration = 0f)
         {
-            if (ItemCount == 0) return null;
+            if (ItemCount == 0) return;
             index = Mathf.Clamp(index, 0, ItemCount - 1);
             var indexPos = GetPositionByIndex(index);
             indexPos.y *= -1;
             if (index > ItemCount - (_viewableItemCount - 2))
-                return ScrollToPosition(1.0f, duration);
+            {
+                ScrollToPosition(1.0f, duration);
+                return;
+            }
 
             if (Mathf.Approximately(duration, 0f))
             {
                 content.anchoredPosition = vertical ? new Vector2(content.anchoredPosition.x, indexPos.y) : new Vector2(indexPos.x, content.anchoredPosition.y);
-                return null;
+                return;
             }
-            return vertical ? content.DOLocalMoveY(indexPos.y, duration) : content.DOLocalMoveY(indexPos.x, duration);
+            
+            if (vertical)
+                OnTweenAction(content.anchoredPosition.y, indexPos.y,
+                    (from, to, t) => content.anchoredPosition =
+                        new Vector2(content.anchoredPosition.x, Mathf.Lerp(from, to, t)), duration).Forget();
+            else
+                OnTweenAction(content.anchoredPosition.x, indexPos.x,
+                    (from, to, t) => content.anchoredPosition =
+                        new Vector2(Mathf.Lerp(from, to, t), content.anchoredPosition.y), duration).Forget();
         }
 
         /// <summary>
@@ -233,18 +245,40 @@ namespace Causeless3t.UI
         /// <param name="pos">이동할 normalized(0~1) 포지션</param>
         /// <param name="duration">스크롤 이동에 걸리는 시간(sec)</param>
         /// <returns>duration이 0이 아닐때 DoTween, 0이면 null</returns>
-        public Tweener ScrollToPosition(float pos, float duration = 0f)
+        public void ScrollToPosition(float pos, float duration = 0f)
         {
             pos = 1f - Mathf.Clamp(pos, 0f, 1f);
-            //if (Mathf.Approximately(duration, 0f))
+            if (Mathf.Approximately(duration, 0f))
             {
                 if (vertical)
                     verticalNormalizedPosition = pos;
                 else
                     horizontalNormalizedPosition = pos;
-                return null;
+                return;
             }
-            //return vertical ? this.DOVerticalNormalizedPos(pos, duration) : this.DOHorizontalNormalizedPos(pos, duration);
+            
+            if (vertical)
+                OnTweenAction(verticalNormalizedPosition, pos,
+                    (from, to, t) => verticalNormalizedPosition = Mathf.Lerp(from, to, t), duration).Forget();
+            else
+                OnTweenAction(horizontalNormalizedPosition, pos,
+                    (from, to, t) => horizontalNormalizedPosition = Mathf.Lerp(from, to, t), duration).Forget();
+        }
+        
+        private CancellationTokenSource _tweenCTS;
+        private async UniTask OnTweenAction(float fromValue, float toValue, Action<float, float, float> action, float duration)
+        {
+            _tweenCTS?.Cancel();
+            _tweenCTS = new CancellationTokenSource();
+            var timer = 0f;
+            while (timer <= duration)
+            {
+                if (_tweenCTS.IsCancellationRequested) return;
+                action?.Invoke(fromValue, toValue, Mathf.Min(timer/duration, 1.0f));
+                await UniTask.Yield();
+                timer += Time.deltaTime;
+            }
+            _tweenCTS = null;
         }
 
         private void ResetView()

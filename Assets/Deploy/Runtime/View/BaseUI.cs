@@ -56,6 +56,16 @@ namespace Causeless3t.UI
             SearchBinders();
         }
 
+        protected virtual void OnEnable()
+        {
+            RegisterUIEvents();
+        }
+
+        protected virtual void OnDisable()
+        {
+            UnRegisterUIEvents();
+        }
+
         protected virtual void Start()
         {
         }
@@ -97,8 +107,8 @@ namespace Causeless3t.UI
 
         private static void InitUIEventBindInfo()
         {
-            Assembly referencedAssembly = Assembly.GetExecutingAssembly();
-            var types = referencedAssembly.GetTypes();
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(assembly => assembly.GetTypes());
             foreach (var type in types)
             {
                 var methods = type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
