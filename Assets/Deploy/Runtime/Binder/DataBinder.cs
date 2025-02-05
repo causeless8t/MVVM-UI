@@ -6,8 +6,6 @@ namespace Causeless3t.UI
     {
         [SerializeField][Tooltip("기본 컴포넌트 Getter의 키")]
         protected string getterKey;
-
-        public string GetGetterKey() => getterKey;
         
         /// <summary>
         /// 연결할 컴포넌트
@@ -56,7 +54,7 @@ namespace Causeless3t.UI
         /// </summary>
         /// <param name="key">기본 Getter의 키</param>
         /// <returns>컴포넌트</returns>
-        public virtual T GetProperty(string key)
+        public T GetProperty(string key)
         {
             if (string.IsNullOrEmpty(getterKey)) return default;
             if (!getterKey.Equals(key)) return default;
@@ -72,6 +70,6 @@ namespace Causeless3t.UI
             return Target;
         }
 
-        bool IDataBinder<T>.HasKey(string key) => getterKey.Equals(key);
+        public virtual bool HasKey(string key) => getterKey.Equals(key);
     }
 }

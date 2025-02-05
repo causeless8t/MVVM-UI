@@ -114,6 +114,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sample
       objectReference: {fileID: 0}
+    - target: {fileID: 1537064218229167861, guid: 7d1e55c969b36464db99ef9f3b6926cb, type: 3}
+      propertyPath: getterKey
+      value: SampleScrollView
+      objectReference: {fileID: 0}
     - target: {fileID: 1765238159899477523, guid: 7d1e55c969b36464db99ef9f3b6926cb, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

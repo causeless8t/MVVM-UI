@@ -72,7 +72,7 @@ namespace Causeless3t.UI
             }
         }
 
-        public new bool GetProperty(string key)
+        bool IDataBinder<bool>.GetProperty(string key)
         {
             if (_bindInfoDic == null)
                 LoadData();
@@ -87,7 +87,7 @@ namespace Causeless3t.UI
             return default;
         }
 
-        public bool HasKey(string key) => _bindInfoDic?.ContainsKey(key) ?? false;
+        public override bool HasKey(string key) => _bindInfoDic?.ContainsKey(key) ?? false;
 
         private void OnClick()
         {

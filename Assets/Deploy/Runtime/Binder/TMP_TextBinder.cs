@@ -79,7 +79,7 @@ namespace Causeless3t.UI
             }
         }
 
-        public bool HasKey(string key) => _bindInfoDic?.ContainsKey(key) ?? false;
+        public override bool HasKey(string key) => _bindInfoDic?.ContainsKey(key) ?? false;
 
         Color IDataBinder<Color>.GetProperty(string key)
         {

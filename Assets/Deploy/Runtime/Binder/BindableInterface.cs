@@ -6,13 +6,13 @@ namespace Causeless3t.UI
     public interface IBinder
     {
         void Bind();
+        bool HasKey(string key);
     }
  
     public interface IDataBinder<T> 
     {
         void SetProperty(string key, T value);
         T GetProperty(string key);
-        bool HasKey(string key);
     }
     
     public interface IUIEventBinder

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Globalization;
 using Causeless3t.UI;
 using Cysharp.Threading.Tasks;
@@ -22,7 +21,7 @@ namespace Causeless3t.Sample
             set => BroadcastSetProperty(nameof(SampleText), value);
         }
 
-        public ReusableScrollView SampleCollectionViewModel => BroadcastGetProperty<ReusableScrollView>(nameof(SampleCollectionViewModel));
+        public ReusableScrollView SampleScrollView => BroadcastGetProperty<ReusableScrollView>(nameof(SampleScrollView));
 
         // Start is called before the first frame update
         protected override void Start()
@@ -30,9 +29,9 @@ namespace Causeless3t.Sample
             base.Start();
             UniTask.Create(async () =>
             {
-                await UniTask.WaitUntil(() => SampleCollectionViewModel.IsInitialized);
+                await UniTask.WaitUntil(() => SampleScrollView.IsInitialized);
                 for (int i = 0; i < 200; i++)
-                    SampleCollectionViewModel.AddItem(new SampleItemModel() { Index = i });
+                    SampleScrollView.AddItem(new SampleItemModel() { Index = i });
             });
         }
 
@@ -47,7 +46,7 @@ namespace Causeless3t.Sample
         [ButtonClickEventRegister("GoToLastIndexButton")]
         private void GoToLastIndexButton(Button target)
         {
-            SampleCollectionViewModel.ScrollToPosition(1f, 1f);
+            SampleScrollView.ScrollToPosition(1f, 1f);
         }
     }
 }

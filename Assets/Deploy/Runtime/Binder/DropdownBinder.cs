@@ -151,7 +151,7 @@ namespace Causeless3t.UI
             return default;
         }
 
-        public bool HasKey(string key) => _bindInfoDic?.ContainsKey(key) ?? false;
+        public override bool HasKey(string key) => _bindInfoDic?.ContainsKey(key) ?? false;
 
         public void InvokeMethod(string key, int value)
         {

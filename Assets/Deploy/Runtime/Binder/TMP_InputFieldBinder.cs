@@ -168,7 +168,7 @@ namespace Causeless3t.UI
             return default;
         }
 
-        public bool HasKey(string key) => _bindInfoDic?.ContainsKey(key) ?? false;
+        public override bool HasKey(string key) => _bindInfoDic?.ContainsKey(key) ?? false;
         
         TMP_Text IDataBinder<TMP_Text>.GetProperty(string key)
         {

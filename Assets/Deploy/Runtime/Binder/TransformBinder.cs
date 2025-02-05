@@ -67,7 +67,7 @@ namespace Causeless3t.UI
             }
         }
 
-        public bool HasKey(string key) => _bindInfoDic?.ContainsKey(key) ?? false;
+        public override bool HasKey(string key) => _bindInfoDic?.ContainsKey(key) ?? false;
 
         Quaternion IDataBinder<Quaternion>.GetProperty(string key)
         {
